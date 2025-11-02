@@ -87,7 +87,7 @@
     helix
     wget
     curl
-    nvtopPackages.full
+    nvtopPackages.amd
     git
     fastfetch
     lf
