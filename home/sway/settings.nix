@@ -1,19 +1,8 @@
 {
   input = {
-    "1:1:AT_Translated_Set_2_keyboard" = { xkb_layout = "de"; };
-    "19280:4385:KP_REPUBLIC_BM60V2" = { xkb_layout = "us"; };
+    "*" = { xkb_layout = "us "; };
     "type:touchpad" = {
-      tap = "enabled";
-      tap_button_map = "lrm";
-      drag = "enabled";
-      click_method = "clickfinger";
-      scroll_method = "two_finger";
-      natural_scroll = "disabled";
-      dwt = "disabled";
-    };
-    "type:tablet_tool" = {
-      tool_mode = "pen relative";
-      #tool_mode = "pencil relative";
+      natural_scroll = "enabled";
     };
   };
   bars = [ ];
@@ -21,20 +10,19 @@
   #   names = [ "Fira Code Nerd Font" ];
   #   size = 10.0;
   # };
-  gaps = {
-    inner = 4;
-    outer = 5;
-    smartBorders = "on";
-    smartGaps = true;
-  };
+
+  startup = [
+    { command = "nm-applet"; always = true; }
+  ];
+
   keybindings = let
     modifier = "Mod4";
     in {
       "${modifier}+Return" = "exec alacritty";
       "${modifier}+Shift+q" = "kill";
+      "${modifier}+d" = "exec fuzzel";
 
-      "${modifier}+F1" = "exec chromium --ozone-platform=wayland";
-      "${modifier}+F2" = "exec codium --ozone-platform=wayland";
+      "${modifier}+f" = "exec chromium --ozone-platform=wayland";
 
       "${modifier}+h" = "focus left";
       "${modifier}+j" = "focus down";
@@ -58,7 +46,7 @@
 
       "${modifier}+b" = "splith";
       "${modifier}+v" = "splitv";
-      "${modifier}+f" = "fullscreen toggle";
+      "${modifier}+z" = "fullscreen toggle";
       "${modifier}+a" = "focus parent";
 
       "${modifier}+s" = "layout stacking";
@@ -96,6 +84,6 @@
 
       "${modifier}+r" = "mode resize";
 
-      "${modifier}+y" = "swaylock -f -c 0000000";
+      "${modifier}+Mod1+l" = "swaylock -f -c 0000000";
   };
 }

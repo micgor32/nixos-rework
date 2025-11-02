@@ -12,6 +12,7 @@
     libnotify
     xdg-utils
     graphviz
+    networkmanagerapplet
   ];
 
   programs = {
