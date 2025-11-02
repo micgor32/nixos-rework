@@ -1,32 +1,50 @@
-{config, ...}: let
-  d = config.xdg.dataHome;
-  c = config.xdg.configHome;
-  cache = config.xdg.cacheHome;
-in {
+{ pkgs, config, ...}: 
+{
   imports = [
     ./common.nix
     ./terminals.nix
   ];
 
-  # add environment variables
-  home.sessionVariables = {
-    # clean up ~
-    LESSHISTFILE = cache + "/less/history";
-    LESSKEY = c + "/less/lesskey";
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableVteIntegration = pkgs.stdenv.isLinux;
+    autocd = true;
+    autosuggestion.enable = true;
+    dotDir = "${config.xdg.configHome}/zsh";
+    history = {
+      expireDuplicatesFirst = true;
+      extended = true;
+      ignoreDups = true;
+      ignoreSpace = true;
+      path = "${config.xdg.dataHome}/zsh/history";
+      save = 10000;
+      share = true;
+    };
+    envExtra = ''
+      export LESSHISTFILE="${config.xdg.dataHome}/less_history"
+      export CARGO_HOME="${config.xdg.cacheHome}/cargo"
+      export SSH_AUTH_SOCK=/run/user/1000/ssh-agent.socket
+      export GOPATH="${config.xdg.dataHome}/go"
+    '';
+    initContent = ''
+      local ZVM_INIT_MODE=sourcing
+      source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-    # set default applications
-    EDITOR = "vim";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
+      source ${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
+      source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+      source ${pkgs.zsh-autopair.src}/zsh-autopair.plugin.zsh
+      source ${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 
-    # enable scrolling in git diff
-    DELTA_PAGER = "less -R";
+      alias n="nvim"
+      alias c="clear"
+      alias la="ls -la"
+      alias gits="git status"
+      alias gita="git add"
+      alias gitc="git commit -m"
+      alias gitp="git push"
+      alias e="emacs"
 
-    MANPAGER = "sh -c 'col -bx | bat -l man -p'";
-  };
-
-  home.shellAliases = {
-    gita = "git add .";
-    gits = "git status";
+    '';
   };
 }

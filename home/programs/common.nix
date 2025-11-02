@@ -10,6 +10,7 @@
     ripgrep
     btop
     htop
+    #nvtop
     libnotify
     xdg-utils
     graphviz
@@ -18,27 +19,33 @@
   programs = {
     tmux = {
       enable = true;
+      aggressiveResize = true;
       clock24 = true;
+      escapeTime = 0;
+      historyLimit = 30000;
+      newSession = true;
+      secureSocket = false;
+      plugins = with pkgs.tmuxPlugins; [
+        vim-tmux-navigator
+      ];
+      shortcut = "a";
       keyMode = "vi";
-      extraConfig = "mouse on";
+      terminal = "tmux-256color";
+      extraConfig = ''
+        set-option -sa terminal-overrides ",xterm*:Tc"
+        unbind C-b
+        set -g prefix M-x
+        bind M-x send-prefix
+        set -g mouse on
+        set -g base-index 1
+        setw -g pane-base-index 1
+        set -g status-keys vi
+        set-window-option -g mode-keys vi
+        '';
     };
 
-    # bat = {
-    #   enable = true;
-    #   config = {
-    #     pager = "less -FR";
-    #     theme = "catppuccin-mocha";
-    #   };
-    #   themes = {
-    #     # https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme
-    #     catppuccin-mocha = {
-    #       src = catppuccin-bat;
-    #       file = "Catppuccin-mocha.tmTheme";
-    #     };
-    #   };
-    # };
-
     btop.enable = true; # replacement of htop/nmon
+    #nvtop.enable = true;
     #eza.enable = true; # A modern replacement for ‘ls’
     #jq.enable = true; # A lightweight and flexible command-line JSON processor
     ssh.enable = true;
@@ -56,9 +63,15 @@
   };
 
   services = {
-    syncthing.enable = true;
-
-    # auto mount usb drives
-    #udiskie.enable = true;
+    swayidle = {
+      enable = true;
+      events = [
+        { event = "before-sleep"; command = "swaylock -f -c 000000"; }
+      ];
+      timeouts = [
+        { timeout = 900; command = "swaylock -f -c 000000"; }
+        { timeout = 1200; command = "swaymsg output * dpms off"; resumeCommand = "swaymsg output * dpms on"; }
+      ];
+    };
   };
 }

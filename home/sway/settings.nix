@@ -30,7 +30,7 @@
   keybindings = let
     modifier = "Mod4";
     in {
-      "${modifier}+Return" = "exec footclient";
+      "${modifier}+Return" = "exec alacritty";
       "${modifier}+Shift+q" = "kill";
 
       "${modifier}+F1" = "exec chromium --ozone-platform=wayland";

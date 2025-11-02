@@ -51,7 +51,6 @@
       nerd-fonts.symbols-only # symbols icon only
       nerd-fonts.fira-code
       nerd-fonts.jetbrains-mono
-      nerd-fonts.iosevka
     ];
 
     enableDefaultPackages = false;
@@ -105,6 +104,7 @@
 
   services = {
     dbus.packages = [pkgs.gcr];
+    fwupd.enable = true;
 
     pipewire = {
       enable = true;
@@ -119,6 +119,15 @@
       #media-session.enable = true;
     };
 
-    udev.packages = with pkgs; [gnome-settings-daemon];
+    greetd = {
+      enable = true;
+      vt = 7;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --time --cmd sway";
+	        user = "greeter";
+	      };
+	    };
+	  };
   };
 }
