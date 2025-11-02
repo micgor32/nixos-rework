@@ -15,6 +15,16 @@
     { command = "nm-applet"; always = true; }
   ];
 
+  colors = {
+    focused = {
+      border = "#808080";
+      background = "#808080";
+      text = "#ffffff";
+      indicator = "#808080";
+      childBorder = "#808080";
+    };
+  };
+
   keybindings = let
     modifier = "Mod4";
     in {
