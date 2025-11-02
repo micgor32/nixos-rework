@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  #catppuccin-bat,
   ...
 }: {
   home.packages = with pkgs; [
@@ -10,7 +9,6 @@
     ripgrep
     btop
     htop
-    #nvtop
     libnotify
     xdg-utils
     graphviz
@@ -39,9 +37,36 @@
         set -g mouse on
         set -g base-index 1
         setw -g pane-base-index 1
+        set -g status-bg black
+        set -g status-fg white
         set -g status-keys vi
         set-window-option -g mode-keys vi
         '';
+    };
+
+    helix = {
+      enable = true;
+      settings = {
+        theme = "dark-synthwave";
+        editor.lsp.display-messages = true;
+        editor.cursor-shape = {
+          normal = "block";
+          insert = "bar";
+          select = "underline";
+        };
+        keys.normal = {
+          space.B = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}";
+          space.v = "vsplit";
+          space.h = "hsplit";
+          space.q = "wclose";
+          space.w = "rotate_view";
+        };
+      };
+      languages.language = [{
+        name = "nix";
+        auto-format = true;
+        formatter.command = lib.getExe pkgs.nixfmt-rfc-style;
+      }];
     };
 
     btop.enable = true; # replacement of htop/nmon

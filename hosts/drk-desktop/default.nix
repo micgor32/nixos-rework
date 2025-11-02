@@ -4,8 +4,7 @@
   ...
 }: {
   imports = [
-    ../../modules/system.nix
-    #../../modules/sway.nix
+    ../common.nix
     ./hardware-configuration.nix
   ];
 

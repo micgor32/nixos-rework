@@ -12,7 +12,6 @@
   };
   nix.settings.trusted-users = [username];
 
-  # customise /etc/nix/nix.conf declaratively via `nix.settings`
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
 
@@ -83,22 +82,19 @@
   #   openFirewall = true;
   # };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
+    helix
     wget
     curl
+    nvtopPackages.full
     git
-    sysstat
-    lm_sensors
     fastfetch
-    lf # terminal file manager
+    lf
   ];
 
   programs.zsh.enable = true;
 
-  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   services.power-profiles-daemon = {
     enable = true;
@@ -114,12 +110,6 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
     };
 
     greetd = {
