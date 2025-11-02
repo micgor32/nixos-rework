@@ -7,6 +7,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = username;
+    shell = pkgs.zsh;
     extraGroups = ["networkmanager" "wheel"];
   };
   nix.settings.trusted-users = [username];
@@ -94,6 +95,8 @@
     fastfetch
     lf # terminal file manager
   ];
+
+  programs.zsh.enable = true;
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;

@@ -11,7 +11,7 @@
     enableVteIntegration = pkgs.stdenv.isLinux;
     autocd = true;
     autosuggestion.enable = true;
-    dotDir = "${config.xdg.configHome}/zsh";
+    #dotDir = "${config.xdg.configHome}/zsh";
     history = {
       expireDuplicatesFirst = true;
       extended = true;
